@@ -1,10 +1,8 @@
 package com.bomberman.backend;
 
-public class Plateau {
+public class Partie_Reelle {
     Parametres param;
-    Case[][] plateau;
-
-
+    Etat_Case[][] plateau;
 
 
 
