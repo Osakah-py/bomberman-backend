@@ -1,13 +1,13 @@
 package com.bomberman.backend;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Path("/")
+@RestController
+@RequestMapping("/")
 public class HelloResource {
-    @GET
-    @Produces("text/plain")
+    @GetMapping
     public String hello() {
         return "Hello, World!";
     }

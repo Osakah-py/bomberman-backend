@@ -1,5 +1,7 @@
 package com.bomberman.backend;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Joueur {
 
     String id;
@@ -11,20 +13,28 @@ public class Joueur {
     int puissance;
     int vitesse;
 
+    @JsonIgnore
     Jeu jeu;
 
-    public Joueur(String id, String pseudo, Position position) {
+    public Joueur(String id, String pseudo, Position position, Jeu jeu) {
         this.id = id;
         this.pseudo = pseudo;
         this.alive = true;
         this.position = position;
-        this.munitions_max = jeu.getParametres().getMUNITIONS_INIT();
+        this.jeu = jeu;
+
+        Parametres param = jeu != null ? jeu.getParametres() : new Parametres();
+        this.munitions_max = param.getMUNITIONS_INIT();
         this.munitions_courante = this.munitions_max;
-        this.puissance = jeu.getParametres().getPUISSANCE_INIT();
-        this.vitesse = jeu.getParametres().getVITESSE_INIT();
+        this.puissance = param.getPUISSANCE_INIT();
+        this.vitesse = param.getVITESSE_INIT();
     }
 
-    public Direction getDeplacement(){
+    public Joueur(String id, String pseudo, Position position) {
+        this(id, pseudo, position, null);
+    }
+
+    public Direction getDeplacement() {
         return Direction.NONE;
     }
 

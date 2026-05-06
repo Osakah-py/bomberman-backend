@@ -1,9 +1,12 @@
 package com.bomberman.backend;
 
-import jakarta.ws.rs.ApplicationPath;
-import jakarta.ws.rs.core.Application;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@ApplicationPath("/")
-public class HelloApplication extends Application {
+@SpringBootApplication
+public class HelloApplication {
 
+    public static void main(String[] args) {
+        SpringApplication.run(HelloApplication.class, args);
+    }
 }
