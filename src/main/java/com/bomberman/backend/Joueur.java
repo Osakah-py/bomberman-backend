@@ -13,7 +13,7 @@ public class Joueur {
     int puissance;
     int vitesse;
 
-    @JsonIgnore
+    @JsonIgnore // Eviter de mettre ici, on doit pas avoir accès au Jeu
     Jeu jeu;
 
     public Joueur(String id, String pseudo, Position position, Jeu jeu) {

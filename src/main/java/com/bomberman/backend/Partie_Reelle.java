@@ -7,13 +7,9 @@ import java.util.Map;
 
 public class Partie_Reelle implements Jeu {
 
-    private static final int LARGEUR = 13;
-    private static final int HAUTEUR = 13;
-    private static final int MAX_JOUEURS = 4;
-
     private final String id;
     private final Parametres param = new Parametres();
-    private final Etat_Case[][] plateau = new Etat_Case[HAUTEUR][LARGEUR];
+    private final Etat_Case[][] plateau = new Etat_Case[param.getHAUTEUR()][param.getLARGEUR()];
     private final Map<String, Joueur> joueurs = new LinkedHashMap<>();
     private boolean started = false;
 
@@ -23,8 +19,8 @@ public class Partie_Reelle implements Jeu {
     }
 
     private void initPlateau() {
-        for (int y = 0; y < HAUTEUR; y++) {
-            for (int x = 0; x < LARGEUR; x++) {
+        for (int y = 0; y < param.getHAUTEUR(); y++) {
+            for (int x = 0; x < param.getLARGEUR(); x++) {
                 plateau[y][x] = Etat_Case.VIDE;
             }
         }
@@ -44,7 +40,7 @@ public class Partie_Reelle implements Jeu {
     }
 
     public int getMaxJoueurs() {
-        return MAX_JOUEURS;
+        return param.getMaxJoueurs();
     }
 
     public boolean isStarted() {
@@ -56,7 +52,7 @@ public class Partie_Reelle implements Jeu {
     }
 
     public synchronized boolean peutRejoindre() {
-        return !started && joueurs.size() < MAX_JOUEURS;
+        return !started && joueurs.size() < param.getMaxJoueurs();
     }
 
     public synchronized Joueur ajouterJoueur(String pseudo) {
@@ -73,14 +69,14 @@ public class Partie_Reelle implements Jeu {
     private Position getSpawnPosition(int index) {
         return switch (index) {
             case 0 -> new Position(1, 1);
-            case 1 -> new Position(1, LARGEUR - 2);
-            case 2 -> new Position(HAUTEUR - 2, 1);
-            default -> new Position(HAUTEUR - 2, LARGEUR - 2);
+            case 1 -> new Position(1, param.getLARGEUR() - 2);
+            case 2 -> new Position(param.getHAUTEUR() - 2, 1);
+            default -> new Position(param.getHAUTEUR() - 2, param.getLARGEUR() - 2);
         };
     }
 
     public synchronized boolean demarrer() {
-        if (joueurs.size() == MAX_JOUEURS && !started) {
+        if (joueurs.size() == param.getMaxJoueurs() && !started) {
             started = true;
             return true;
         }
@@ -91,7 +87,7 @@ public class Partie_Reelle implements Jeu {
         if (started) {
             return "EN_COURS";
         }
-        if (joueurs.size() == MAX_JOUEURS) {
+        if (joueurs.size() == param.getMaxJoueurs()) {
             return "PRETE";
         }
         return "ATTENTE";
