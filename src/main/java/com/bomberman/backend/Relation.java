@@ -14,6 +14,9 @@ public class Relation {
     private String pseudo1;
     private String pseudo2;
 
+    public Relation() {
+    }
+
     public Relation(String pseudo1, String pseudo2) {
         this.pseudo1 = pseudo1;
         this.pseudo2 = pseudo2;

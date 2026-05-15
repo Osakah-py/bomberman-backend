@@ -11,6 +11,9 @@ public class Compte {
     private String motDePasse;
     public boolean isConnected = false;
 
+    public Compte() {
+    }
+
     public Compte(String pseudo, String motDePasse) {
         this.pseudo = pseudo;
         this.motDePasse = motDePasse;
