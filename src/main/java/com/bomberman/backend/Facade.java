@@ -6,11 +6,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -156,6 +156,7 @@ public class Facade {
         }
         return ResponseEntity.ok(rr.findByPseudo1OrPseudo2(pseudo, pseudo));
     }
+
     /* ---------------------
         GESTION DES PARTIES
     --------------------- */
@@ -195,6 +196,21 @@ public class Facade {
         return ResponseEntity.ok(joueur);
     }
 
+    @PostMapping("/quitterPartie")
+    public ResponseEntity<Void> quitterPartie(@RequestParam("partieId") String partieId, @RequestParam("pseudo") String pseudo) {
+        Partie_Reelle partie = parties.get(partieId);
+        if (partie == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        // Si le joueur quitte une partie déjà commencée, on supprime la partie
+        if (partie.retirerJoueur(pseudo)) {
+            parties.remove(partieId);
+        }
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/partieEtat")
     public ResponseEntity<Partie_Reelle> getEtatPartie(@RequestParam("partieId") String partieId) {
         Partie_Reelle partie = parties.get(partieId);
@@ -204,15 +220,28 @@ public class Facade {
         return ResponseEntity.ok(partie);
     }
 
-    @PostMapping("/demarrerPartie")
-    public ResponseEntity<Partie_Reelle> demarrerPartie(@RequestParam("partieId") String partieId) {
+    /* ---------------------
+        GESTION IN-GAME
+    --------------------- */
+
+    // Déposer Bombe
+    @PostMapping("/deposerBombe")
+    public ResponseEntity<Void> deposerBombe(@RequestParam("partieId") String partieId, @RequestParam("pseudo") String pseudo) {
         Partie_Reelle partie = parties.get(partieId);
         if (partie == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        if (!partie.demarrer()) {
+
+        if (!partie.deposerBombe(pseudo)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
-        return ResponseEntity.ok(partie);
+
+        return ResponseEntity.ok().build();
     }
+
+    // Récupérer Bonus
+    
+
+
+
 }

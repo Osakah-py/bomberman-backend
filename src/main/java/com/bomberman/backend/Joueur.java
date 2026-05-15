@@ -4,9 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Joueur {
 
-    String id;
     String pseudo;
-    boolean alive;
+    boolean vivant;
     Position position;
     int munitions_courante;
     int munitions_max;
@@ -16,10 +15,9 @@ public class Joueur {
     @JsonIgnore // Eviter de mettre ici, on doit pas avoir accès au Jeu
     Jeu jeu;
 
-    public Joueur(String id, String pseudo, Position position, Jeu jeu) {
-        this.id = id;
+    public Joueur(String pseudo, Position position, Jeu jeu) {
         this.pseudo = pseudo;
-        this.alive = true;
+        this.vivant = true;
         this.position = position;
         this.jeu = jeu;
 
@@ -30,20 +28,12 @@ public class Joueur {
         this.vitesse = param.getVITESSE_INIT();
     }
 
-    public Joueur(String id, String pseudo, Position position) {
-        this(id, pseudo, position, null);
+    public Joueur(String pseudo, Position position) {
+        this(pseudo, position, null);
     }
 
     public Direction getDeplacement() {
         return Direction.NONE;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getPseudo() {
@@ -54,12 +44,12 @@ public class Joueur {
         this.pseudo = pseudo;
     }
 
-    public boolean isAlive() {
-        return alive;
+    public boolean isVivant() {
+        return vivant;
     }
 
-    public void setAlive(boolean alive) {
-        this.alive = alive;
+    public void setVivant(boolean vivant) {
+        this.vivant = vivant;
     }
 
     public Position getPosition() {
